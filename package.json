@@ -15,14 +15,17 @@
     "express": "^4.11.2",
     "kerberos": "~0.0.x",
     "node": "^14.14.0",
-    "parse": "~1.8.0",
+    "parse": "^1.8.5",
     "parse-dashboard": "^2.1.0",
     "parse-server": "^2.8.4"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "nodemon index.js"
   },
   "engines": {
     "node": "12.9.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
   }
 }

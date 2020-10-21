@@ -1,12 +1,12 @@
-// Example express application adding the parse-server module to expose Parse
-// compatible API routes.
-
-var express = require('express');
-var ParseServer = require('parse-server').ParseServer;
-var ParseDashboard = require('parse-dashboard');
-var path = require('path');
 require("dotenv").config();
 
+const express = require('express');
+const ParseServer = require('parse-server').ParseServer;
+const ParseDashboard = require('parse-dashboard');
+const Parse = require('parse/node').Parse;
+const path = require('path');
+const { router } = require('./apis');
+const db = require('./db');
 
 var api = new ParseServer({
   databaseURI: process.env.DB_URI,
@@ -25,18 +25,18 @@ var dashboard = new ParseDashboard(
   {
     apps: [
       {
-        serverURL: `${process.env.SERVER_URL}/parse`,
+        serverURL: `${process.env.SERVER_URL}`,
         appId: process.env.APP_ID,
         masterKey: process.env.MASTER_KEY,
         appName: process.env.APP_NAME
       }
     ],
-    // users: [
-    //   {
-    //     user: process.env.masterUsername,
-    //     pass: process.env.masterPassword
-    //   }
-    // ]
+    users: [
+      {
+        user: process.env.APP_USER,
+        pass: process.env.APP_PASS
+      }
+    ]
   },
   options
 );
@@ -46,7 +46,7 @@ var app = express();
 app.use('/public', express.static(path.join(__dirname, '/public')));
 
 // Serve the Parse API on the /parse URL prefix
-app.use("/parse", api);
+app.use('/parse', api);
 
 // Parse Server plays nicely with the rest of your web routes
 app.get('/', function(req, res) {
@@ -65,8 +65,14 @@ httpServer.listen(port, function() {
     console.log('parse-server-example running on port ' + port + '.');
 });
 
+app.locals.share = {
+  db
+}
+
 app.use('/dashboard', dashboard);
 
+app.use('/api', router);
 
-// This will enable the Live Query real-time server
-ParseServer.createLiveQueryServer(httpServer);
+Parse.initialize(process.env.APP_ID);
+
+Parse.serverURL = `${process.env.SERVER_URL}`
