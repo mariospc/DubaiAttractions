@@ -1,21 +1,27 @@
-const getAllAttractions = function (req, res) {
+const getAllAttractions = async (req, res) => {
     const { db } = req.app.locals.share;
 
-    db.DubaiAttractionQuery.ascending("order");
-    db.DubaiAttractionQuery.find().then(function(res){
-        console.log(res);
-    })
-}
+    try {
+        db.DubaiAttractionQuery.ascending("order");
+        const attractions = await db.DubaiAttractionQuery.find();
+        res.status(200).json(attractions);
+    }catch (error){
+        res.status(400).json({message: "Error on getAttractions"})
+    }
+};
 
-const getAttraction = function (req, res) {
+const getAttraction = async (req, res) => {
     const { db } = req.app.locals.share;
 
-    console.log(req.query.attraction_id);
-    db.DubaiAttractionQuery.get(req.query.attraction_id).then(function(res){
-        res.status(200).json(res);
-    })
+    try{
+        const attraction = await db.DubaiAttractionQuery.get(req.query.attraction_id);
+        res.status(200).json(attraction)
 
-}
+    }catch(error){
+        res.status(400).json({message: "Error on getAttraction"})
+    }
+
+};
 
 module.exports = {
     getAllAttractions,

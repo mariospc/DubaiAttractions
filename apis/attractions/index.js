@@ -7,10 +7,12 @@ const {
 } = require('../../functions');
 
 router.get('/', async (req, res) => {
+    console.log('no filter');
     await getAllAttractions(req, res);
 });
 
 router.get('/filter', async (req, res) => {
+    console.log('filter');
     await getAttraction(req, res);
 });
 

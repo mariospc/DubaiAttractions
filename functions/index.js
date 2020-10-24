@@ -1,11 +1,18 @@
 const {
     getAllAttractions,
-    getAttraction
-    // updateAttraction
+    getAttraction,
+    // updateAttraction    
 } = require('./attractions');
+
+const {
+    signUp,
+    logIn
+} = require('./users');
 
 module.exports = {
     getAllAttractions,
-    getAttraction
+    getAttraction,
     // updateAttraction
+    signUp,
+    logIn
 }

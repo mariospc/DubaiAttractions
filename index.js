@@ -7,8 +7,9 @@ const Parse = require('parse/node').Parse;
 const path = require('path');
 const { router } = require('./apis');
 const db = require('./db');
+const bodyParser = require('body-parser');
 
-var api = new ParseServer({
+const api = new ParseServer({
   databaseURI: process.env.DB_URI,
   cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
   appId: process.env.APP_ID,
@@ -18,10 +19,10 @@ var api = new ParseServer({
 });
 
 
-var options = { allowInsecureHTTP: false };
+const options = { allowInsecureHTTP: false };
 
 
-var dashboard = new ParseDashboard(
+const dashboard = new ParseDashboard(
   {
     apps: [
       {
@@ -40,7 +41,11 @@ var dashboard = new ParseDashboard(
   },
   options
 );
-var app = express();
+const app = express();
+
+app.use(bodyParser.json());
+// app.use(bodyParser.text());
+app.use(bodyParser.urlencoded({extended:true}));
 
 // Serve static assets from the /public folder
 app.use('/public', express.static(path.join(__dirname, '/public')));
@@ -59,8 +64,8 @@ app.get('/test', function(req, res) {
   res.sendFile(path.join(__dirname, '/public/test.html'));
 });
 
-var port = process.env.PORT || 5000;
-var httpServer = require('http').createServer(app);
+const port = process.env.PORT || 5000;
+const httpServer = require('http').createServer(app);
 httpServer.listen(port, function() {
     console.log('parse-server-example running on port ' + port + '.');
 });
