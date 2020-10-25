@@ -32,12 +32,12 @@ const dashboard = new ParseDashboard(
         appName: process.env.APP_NAME
       }
     ],
-    users: [
-      {
-        user: process.env.APP_USER,
-        pass: process.env.APP_PASS
-      }
-    ]
+    // users: [
+    //   {
+    //     user: process.env.APP_USER,
+    //     pass: process.env.APP_PASS
+    //   }
+    // ]
   },
   options
 );

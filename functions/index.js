@@ -6,7 +6,8 @@ const {
 
 const {
     signUp,
-    logIn
+    logIn,
+    logOut
 } = require('./users');
 
 module.exports = {
@@ -14,5 +15,6 @@ module.exports = {
     getAttraction,
     // updateAttraction
     signUp,
-    logIn
+    logIn,
+    logOut
 }

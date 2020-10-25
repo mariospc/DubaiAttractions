@@ -1,5 +1,7 @@
 const { DubaiAttractionQuery } = require('./dubaiAttributes');
+const { RoleQuery } = require('./roles')
 
 module.exports = {
-    DubaiAttractionQuery
+    DubaiAttractionQuery,
+    RoleQuery
 }

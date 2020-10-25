@@ -1,5 +1,9 @@
-const { DubaiAttractionQuery } = require('./classes');
+const { 
+    DubaiAttractionQuery,
+    RoleQuery
+ } = require('./classes');
 
 module.exports = {
-    DubaiAttractionQuery
+    DubaiAttractionQuery,
+    RoleQuery
 }
