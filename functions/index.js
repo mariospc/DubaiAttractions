@@ -1,7 +1,7 @@
 const {
     getAllAttractions,
     getAttraction,
-    // updateAttraction    
+    updateAttraction    
 } = require('./attractions');
 
 const {
@@ -13,7 +13,8 @@ const {
 module.exports = {
     getAllAttractions,
     getAttraction,
-    // updateAttraction
+    updateAttraction,
+
     signUp,
     logIn,
     logOut
