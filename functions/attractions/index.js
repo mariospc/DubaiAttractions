@@ -1,9 +1,13 @@
-const getAllAttractions = async (req, res) => {
+const listAttraction = async (req, res) => {
     const { db } = req.app.locals.share;
 
     try {
-        db.DubaiAttractionQuery.ascending("order");
-        const attractions = await db.DubaiAttractionQuery.find();
+        const DubaiAttractionObj = Parse.Object.extend('dubai_attraction');
+        const DubaiAttractionQuery = new Parse.Query(DubaiAttractionObj);
+        DubaiAttractionQuery.ascending("order");
+        const attractions = await DubaiAttractionQuery.find();
+        console.log(typeof attractions);
+
         res.status(200).json(attractions);
     }catch (error){
         res.status(400).json({message: "Error on getAttractions"})
@@ -14,7 +18,11 @@ const getAttraction = async (req, res) => {
     const { db } = req.app.locals.share;
 
     try{
-        const attraction = await db.DubaiAttractionQuery.get(req.query.attraction_id);
+        console.log(req.params);
+        const DubaiAttractionObj = Parse.Object.extend('dubai_attraction');
+        const DubaiAttractionQuery = new Parse.Query(DubaiAttractionObj);
+        const attraction = await DubaiAttractionQuery.get(req.params.id);
+        console.log(typeof attraction);
         res.status(200).json(attraction)
 
     }catch(error){
@@ -57,7 +65,7 @@ const updateAttraction = async(req, res) => {
 }
 
 module.exports = {
-    getAllAttractions,
+    listAttraction,
     getAttraction,
     updateAttraction
 }

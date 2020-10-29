@@ -1,18 +1,16 @@
 const router = require('express').Router();
 
 const {
-    getAllAttractions,
+    listAttraction,
     getAttraction,
     updateAttraction
 } = require('../../functions');
 
 router.get('/', async (req, res) => {
-    console.log('no filter');
-    await getAllAttractions(req, res);
+    await listAttraction(req, res);
 });
 
-router.get('/filter', async (req, res) => {
-    console.log('filter');
+router.get('/:id', async (req, res) => {
     await getAttraction(req, res);
 });
 

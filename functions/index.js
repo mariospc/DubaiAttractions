@@ -1,5 +1,5 @@
 const {
-    getAllAttractions,
+    listAttraction,
     getAttraction,
     updateAttraction    
 } = require('./attractions');
@@ -11,7 +11,7 @@ const {
 } = require('./users');
 
 module.exports = {
-    getAllAttractions,
+    listAttraction,
     getAttraction,
     updateAttraction,
 
