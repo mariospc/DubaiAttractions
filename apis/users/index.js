@@ -10,7 +10,7 @@ router.post('/', async (req, res) => {
     await signUp(req, res);
 });
 
-router.get('/login', async (req, res) => {
+router.post('/login', async (req, res) => {
     await logIn(req, res);
 });
 

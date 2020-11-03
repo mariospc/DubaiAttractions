@@ -6,7 +6,6 @@ const listAttraction = async (req, res) => {
         const DubaiAttractionQuery = new Parse.Query(DubaiAttractionObj);
         DubaiAttractionQuery.ascending("order");
         const attractions = await DubaiAttractionQuery.find();
-        console.log(typeof attractions);
 
         res.status(200).json(attractions);
     }catch (error){
@@ -18,11 +17,9 @@ const getAttraction = async (req, res) => {
     const { db } = req.app.locals.share;
 
     try{
-        console.log(req.params);
         const DubaiAttractionObj = Parse.Object.extend('dubai_attraction');
         const DubaiAttractionQuery = new Parse.Query(DubaiAttractionObj);
         const attraction = await DubaiAttractionQuery.get(req.params.id);
-        console.log(typeof attraction);
         res.status(200).json(attraction)
 
     }catch(error){
@@ -31,11 +28,13 @@ const getAttraction = async (req, res) => {
 };
 
 const updateAttraction = async(req, res) => {
-
     const { db } = req.app.locals.share;
 
     try {
-        const attraction = await db.DubaiAttractionQuery.get(req.body.attraction_id);
+        const DubaiAttractionObj = Parse.Object.extend('dubai_attraction');
+        const DubaiAttractionQuery = new Parse.Query(DubaiAttractionObj);
+        const attraction = await DubaiAttractionQuery.get(req.body.attraction_id);
+
         if (req.body.title !== undefined){
             attraction.set("title", req.body.title);
         } 
@@ -58,6 +57,7 @@ const updateAttraction = async(req, res) => {
         
         res.status(200).json({message: 'Updated successfully'});
     }catch (error){
+        console.log(error);
         res.status(401).json({message: "Unauthorized User"});
     }
 
