@@ -1,3 +1,7 @@
+const request = require('request-promise');
+const Parse = require('parse/node');
+const { response } = require('express');
+
 const listAttraction = async (req, res) => {
     const { db } = req.app.locals.share;
 
@@ -6,7 +10,6 @@ const listAttraction = async (req, res) => {
         const DubaiAttractionQuery = new Parse.Query(DubaiAttractionObj);
         DubaiAttractionQuery.ascending("order");
         const attractions = await DubaiAttractionQuery.find();
-
         res.status(200).json(attractions);
     }catch (error){
         res.status(400).json({message: "Error on getAttractions"})
@@ -29,7 +32,6 @@ const getAttraction = async (req, res) => {
 
 const updateAttraction = async(req, res) => {
     const { db } = req.app.locals.share;
-
     try {
         const DubaiAttractionObj = Parse.Object.extend('dubai_attraction');
         const DubaiAttractionQuery = new Parse.Query(DubaiAttractionObj);
@@ -51,10 +53,15 @@ const updateAttraction = async(req, res) => {
             attraction.set("description", req.body.description);
         }
         if (req.body.photo !== undefined){
-            attraction.set("photo", req.body.photo);
+            const file = new Parse.File("image.png", { base64: req.body.photo},"image/png");
+            await file.save().then(result => {
+                attraction.set("photo", result);
+            }),(error =>{
+                console.log('Error on loading image',error);
+            });
         }
-        await attraction.save();
-        
+
+        await attraction.save({},{ useMasterKey: true });
         res.status(200).json({message: 'Updated successfully'});
     }catch (error){
         console.log(error);

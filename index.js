@@ -42,10 +42,12 @@ const dashboard = new ParseDashboard(
   options
 );
 const app = express();
+app.use(bodyParser.json({limit: '50mb', extended: true}));
+app.use(bodyParser.urlencoded({extended:true,limit: '50mb'}));
 
-app.use(bodyParser.json());
-// app.use(bodyParser.text());
-app.use(bodyParser.urlencoded({extended:true}));
+// app.use(bodyParser.json());
+// // app.use(bodyParser.text());
+// app.use(bodyParser.urlencoded({extended:true}));
 
 // Serve static assets from the /public folder
 app.use('/public', express.static(path.join(__dirname, '/public')));
@@ -79,5 +81,6 @@ app.use('/dashboard', dashboard);
 app.use('/api', router);
 
 Parse.initialize(process.env.APP_ID);
+Parse.masterKey =  process.env.MASTER_KEY
 
 Parse.serverURL = `${process.env.SERVER_URL}`
