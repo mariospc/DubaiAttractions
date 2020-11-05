@@ -1,6 +1,8 @@
-const request = require('request-promise');
+const { error } = require('console');
+const request = require('request');
 const Parse = require('parse/node');
-const { response } = require('express');
+const sharp = require('sharp');
+
 
 const listAttraction = async (req, res) => {
     const { db } = req.app.locals.share;
@@ -56,13 +58,33 @@ const updateAttraction = async(req, res) => {
             const file = new Parse.File("image.png", { base64: req.body.photo},"image/png");
             await file.save().then(result => {
                 attraction.set("photo", result);
+                attraction.save({},{ useMasterKey: true }).then(result =>{
+                res.status(200).json({message: 'Updated successfully'});
+                })
             }),(error =>{
                 console.log('Error on loading image',error);
             });
         }
-
-        await attraction.save({},{ useMasterKey: true });
-        res.status(200).json({message: 'Updated successfully'});
+    
+            // const imageUrl = result.url();
+            // request({ uri: imageUrl, encoding: null }, (err, response, body) => {
+            //     //body has a value
+            //     if (!err && response.statusCode === 200) {
+            //         console.log('body',body);
+            //         sharp(imageUrl)
+            //             .resize(250,250)
+            //             .toBuffer('attraction.png')
+            //             .then((data) => {
+            //             console.log(typeof data);
+            //             attraction.set("photo", data);
+            //             attraction.save({},{ useMasterKey: true }).then(result =>{
+            //                 res.status(200).json({message: 'Updated successfully'});
+            //             })
+            //             .catch( err => { console.log('error', err) });
+            //         }).catch( err => { console.log('last error', err) });;
+            //     }
+            // })
+            
     }catch (error){
         console.log(error);
         res.status(401).json({message: "Unauthorized User"});

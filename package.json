@@ -18,7 +18,8 @@
     "parse": "^1.8.5",
     "parse-dashboard": "^2.1.0",
     "parse-server": "^2.8.4",
-    "request-promise": "^4.2.6"
+    "request-promise": "^4.2.6",
+    "sharp": "^0.26.2"
   },
   "scripts": {
     "start": "nodemon index.js"
