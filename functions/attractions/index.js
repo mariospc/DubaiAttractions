@@ -58,13 +58,14 @@ const updateAttraction = async(req, res) => {
             const file = new Parse.File("image.png", { base64: req.body.photo},"image/png");
             await file.save().then(result => {
                 attraction.set("photo", result);
-                attraction.save({},{ useMasterKey: true }).then(result =>{
-                res.status(200).json({message: 'Updated successfully'});
-                })
+                
             }),(error =>{
                 console.log('Error on loading image',error);
             });
         }
+        attraction.save({},{ useMasterKey: true }).then(result =>{
+            res.status(200).json({message: 'Updated successfully'});
+        });
     
             // const imageUrl = result.url();
             // request({ uri: imageUrl, encoding: null }, (err, response, body) => {
