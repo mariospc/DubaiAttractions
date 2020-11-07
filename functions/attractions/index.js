@@ -65,7 +65,9 @@ const updateAttraction = async(req, res) => {
         }
         attraction.save({},{ useMasterKey: true }).then(result =>{
             res.status(200).json({message: 'Updated successfully'});
-        });
+        }),error => {
+            res.status(400).json({message: 'Update failed'})
+        };
     
             // const imageUrl = result.url();
             // request({ uri: imageUrl, encoding: null }, (err, response, body) => {

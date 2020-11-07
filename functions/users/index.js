@@ -20,19 +20,22 @@ const signUp = async (req, res) => {
         
         await role.save();
         console.log('add role to the user');
-        res.status(200).json(role);
+        res.status(200).json({message: 'User successfully created'});
     } catch (error) {
-        res.status(400).json(error.message);
+        res.status(400).json({errorMessage: 'User creation failed'});
     }
 }
  
 const logIn = async (req, res) => {
-    console.log(req.body);
     Parse.User.enableUnsafeCurrentUser();
     try {
         await Parse.User.logIn(req.body.username, req.body.password);
+        const currentUser = Parse.User.current();
         const result = {
-            user: Parse.User.current()
+            objectId: currentUser.id,
+            username: currentUser.get('username'),
+            email: currentUser.get('email'),
+            sessionToken: currentUser.get('sessionToken')
         }
         res.status(200).json(result);
     } catch (error) {

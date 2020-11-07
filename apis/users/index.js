@@ -6,7 +6,7 @@ const {
     logOut
 } = require ('../../functions');
 
-router.post('/', async (req, res) => {
+router.post('/signup', async (req, res) => {
     await signUp(req, res);
 });
 

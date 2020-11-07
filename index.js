@@ -8,6 +8,10 @@ const path = require('path');
 const { router } = require('./apis');
 const db = require('./db');
 const bodyParser = require('body-parser');
+const swaggerUi = require('swagger-ui-express');
+const yaml = require('yamljs');
+
+const SWAGGER_API_FILE = './apis/swagger/spec.yaml';
 
 const api = new ParseServer({
   databaseURI: process.env.DB_URI,
@@ -32,12 +36,12 @@ const dashboard = new ParseDashboard(
         appName: process.env.APP_NAME
       }
     ],
-    // users: [
-    //   {
-    //     user: process.env.APP_USER,
-    //     pass: process.env.APP_PASS
-    //   }
-    // ]
+    users: [
+      {
+        user: process.env.APP_USER,
+        pass: process.env.APP_PASS
+      }
+    ]
   },
   options
 );
@@ -45,9 +49,7 @@ const app = express();
 app.use(bodyParser.json({limit: '50mb', extended: true}));
 app.use(bodyParser.urlencoded({extended:true,limit: '50mb'}));
 
-// app.use(bodyParser.json());
-// // app.use(bodyParser.text());
-// app.use(bodyParser.urlencoded({extended:true}));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(yaml.load(SWAGGER_API_FILE)));
 
 // Serve static assets from the /public folder
 app.use('/public', express.static(path.join(__dirname, '/public')));
